@@ -1,9 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CustomLogger } from './utils/app.logger';
 import { ConfigModule } from '@nestjs/config';
-
+import { MiddlewareConsumer } from '@nestjs/common';
 
 @Module({
   imports: [
