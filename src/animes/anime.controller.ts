@@ -1,16 +1,22 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { AnimeService } from './animes.service';
 
 @Controller('/animes')
 export class AnimeController {
-  constructor() {}
+  constructor(private readonly animeService: AnimeService) {}
 
   @Get('/')
-  getAnimes(): string[] {
-    return ['Naruto', 'One Piece', 'Bleach'];
+  getAnimes() {
+    return this.animeService.getAnimes();
   }
 
-  @Post('/add')
-  addAnime(): string {
-    return 'Anime added successfully';
+  @Get('/anime/:animeId')
+  getAnime(@Param('animeId', ParseIntPipe) animeId: number) {
+    return this.animeService.getAnime(animeId);
   }
+
+  //   @Post('/add')
+  //   addAnime(): string {
+  //     return 'Anime added successfully';
+  //   }
 }
