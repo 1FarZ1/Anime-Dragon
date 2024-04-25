@@ -32,5 +32,12 @@ CREATE TABLE user (
 
 
 -- add Row Naruto into anime table
+-- title description and image , of naruto
+-- Path: anime-slayer/db/init.sql
 
-INSERT INTO anime (title, image, description, rating) VALUES ('Naruto', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM0_v05gSXVzjGcvcoM-ALL76vXXzPOj2bow&s', 'Naruto is a young shinobi with an incorrigible knack for mischief. He’s got a wild sense of humor, but Naruto is completely serious about his mission to be the world’s greatest ninja!', 4.5);
+INSERT INTO anime (title, description, image) VALUES ('Naruto', 'Naruto is a Japanese manga series written and illustrated by Masashi Kishimoto. It tells the story of Naruto Uzumaki, a young ninja who seeks recognition from his peers and dreams of becoming the Hokage, the leader of his village.', 'https://cdn.myanimelist.net/images/anime/13/17405.jpg');
+
+
+-- add Row Naruto into episode table
+
+INSERT INTO episode (title, description, videoPath, animeId) VALUES ('The Start of the MasterPiece', 'The First' ,'uploads/episodes/2.mp4', 1);

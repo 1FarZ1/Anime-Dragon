@@ -18,11 +18,11 @@ model Episode {
   id          Int      @id @default(autoincrement())
   title       String
   description String
-  image       String
+  videoPath       String   
   animeId     Int
   anime       Anime    @relation(fields: [animeId], references: [id])
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @default(now())
 
 }
 
@@ -31,7 +31,7 @@ model Episode {
 //  name      String
 //  animes    Anime[]
 //  createdAt DateTime @default(now())
-//  updatedAt DateTime @updatedAt
+//  updatedAt DateTime @default(now())
 //}
 
 
@@ -43,7 +43,7 @@ model Anime {
   episodes    Episode[]
  // tags        Tag[]
   createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  updatedAt   DateTime @default(now())
 }
 
 
