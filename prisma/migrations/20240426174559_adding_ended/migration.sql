@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `anime` ADD COLUMN `Ended` BOOLEAN NOT NULL DEFAULT false;

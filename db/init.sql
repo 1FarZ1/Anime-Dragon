@@ -35,9 +35,14 @@ CREATE TABLE user (
 -- title description and image , of naruto
 -- Path: anime-slayer/db/init.sql
 
-INSERT INTO anime (title, description, image) VALUES ('Naruto', 'Naruto is a Japanese manga series written and illustrated by Masashi Kishimoto. It tells the story of Naruto Uzumaki, a young ninja who seeks recognition from his peers and dreams of becoming the Hokage, the leader of his village.', 'https://cdn.myanimelist.net/images/anime/13/17405.jpg');
-
+INSERT INTO anime (title, description, image) VALUES
+('One Piece', 'One Piece is a Japanese manga series written and illustrated by Eiichiro Oda. It follows the adventures of Monkey D. Luffy, a young pirate whose dream is to find the One Piece, the greatest treasure in the world.', 'https://cdn.myanimelist.net/images/anime/6/73245.jpg'),
+('Attack on Titan', 'Attack on Titan is a Japanese manga series written and illustrated by Hajime Isayama. It depicts a world where humanity is on the brink of extinction due to giant humanoid creatures known as Titans.', 'https://cdn.myanimelist.net/images/anime/10/47347.jpg'),
+('Dragon Ball Z', 'Dragon Ball Z follows the adventures of Goku and his friends as they defend Earth against villains ranging from intergalactic space fighters and conquerors, unnaturally powerful androids, and nearly indestructible creatures.', 'https://cdn.myanimelist.net/images/anime/6/52045.jpg'),
 
 -- add Row Naruto into episode table
 
 INSERT INTO episode (title, description, videoPath, animeId) VALUES ('The Start of the MasterPiece', 'The First' ,'uploads/episodes/2.mp4', 1);
+
+--@ Block
+INSERT INTO episode (title, description, videoPath, animeId) VALUES ('The Hokage Day', 'Naruto goes into Being the hokage' ,'uploads/episodes/1.mp4', 1);

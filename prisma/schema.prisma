@@ -19,6 +19,8 @@ model Episode {
   title       String
   description String
   videoPath       String   
+  rating      Float @default(0)
+  number     Int @default(0)
   animeId     Int
   anime       Anime    @relation(fields: [animeId], references: [id])
   createdAt   DateTime @default(now())
@@ -40,7 +42,11 @@ model Anime {
   title       String
   description String
   image       String
+  rating      Float  @default(0)
   episodes    Episode[]
+  //isCompleted
+  Ended      Boolean @default(false)  
+
  // tags        Tag[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())

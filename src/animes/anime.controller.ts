@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { AnimeService } from './animes.service';
 
 @Controller('/animes')
