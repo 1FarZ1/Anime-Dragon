@@ -18,6 +18,7 @@ export class AnimeService {
             number: 'desc',
           },
         });
+
         console.log(lastEpisode);
 
         return {
@@ -28,6 +29,14 @@ export class AnimeService {
     );
 
     return animesWithLastEpisode;
+  }
+
+  async getPopularAnimes() {
+    return this.prisma.anime.findMany({
+      orderBy: {
+        rating: 'desc',
+      },
+    });
   }
 
   async getAnime(id: number) {

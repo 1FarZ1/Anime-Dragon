@@ -10,6 +10,12 @@ export class AnimeController {
     return this.animeService.getAnimes();
   }
 
+  // most popolur animes
+  @Get('/popular')
+  getPopularAnimes() {
+    return this.animeService.getPopularAnimes();
+  }
+
   @Get('/anime/:animeId')
   getAnime(@Param('animeId', ParseIntPipe) animeId: number) {
     return this.animeService.getAnime(animeId);
