@@ -8,6 +8,9 @@ import { AnimeModule } from './animes/anime.module';
 // import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from './config/config.module';
+import { ReviewsModule } from './reviews/reviews.module';
+import { FavoriteModule } from './favorites/favorite.module';
+import { CollectionModule } from './collection/collection.module';
 
 @Module({
   imports: [
@@ -18,6 +21,9 @@ import { ConfigModule } from './config/config.module';
     AnimeModule,
     UsersModule,
     ConfigModule,
+    ReviewsModule,
+    FavoriteModule,
+    CollectionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

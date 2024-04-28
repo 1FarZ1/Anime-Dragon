@@ -32,6 +32,12 @@ export class AnimeController {
     return this.animeService.getAnime(animeId);
   }
 
+  // get favorite animes
+  // @Get('/favorites')
+  // getFavorites() {
+  //   return this.animeService.getFavorites();
+  // }
+
   //   @Post('/add')
   //   addAnime(): string {
   //     return 'Anime added successfully';
