@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MiddlewareConsumer } from '@nestjs/common';
 import { AnimeModule } from './animes/anime.module';
 // import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { AnimeModule } from './animes/anime.module';
     }),
     // MikroOrmModule.forRoot(),
     AnimeModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
