@@ -1,21 +1,38 @@
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { IsOptional, IsEnum, IsString } from 'class-validator';
 
 export enum OrderBy {
-  Name = 'name',
+  Name = 'title',
   Rating = 'rating',
   ReleaseDate = 'releaseDate',
 }
 
+export enum Order {
+  ASC = 'asc',
+  DESC = 'desc',
+}
+
 export class AnimeFilterDto {
+  @ApiPropertyOptional({
+    default: '',
+  })
+  @Type(() => String)
+  @IsString()
   @IsOptional()
-  @IsString({ message: 'Search must be a string' })
-  search?: string;
+  readonly query?: string = '';
 
-  @IsOptional()
+  @ApiPropertyOptional({
+    minimum: 1,
+    maximum: 50,
+    default: 10,
+  })
   @IsEnum(OrderBy)
-  orderBy?: OrderBy;
-
   @IsOptional()
-  @IsString({ message: 'Order must be a string' })
-  order?: 'asc' | 'desc';
+  readonly orderBy?: OrderBy = OrderBy.Name;
+
+  @ApiPropertyOptional({ enum: Order, default: Order.ASC })
+  @IsEnum(Order)
+  @IsOptional()
+  readonly order?: Order = Order.DESC;
 }

@@ -21,7 +21,7 @@ export class AnimeController {
   @Get('/search')
   searchAnimes(@Query() filterDto: AnimeFilterDto) {
     return this.animeService.getAnimesSearch(
-      filterDto.search,
+      filterDto.query,
       filterDto.orderBy,
       filterDto.order,
     );

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../db/prisma.service';
-import { OrderBy } from 'src/common/dto/filter.dto';
-import { Prisma } from '@prisma/client';
+import { Order, OrderBy } from 'src/common/dto/filter.dto';
+import { Anime } from '@prisma/client';
+// import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AnimeService {
@@ -12,17 +13,7 @@ export class AnimeService {
     //TODO: Implement the logic to get the last episode of each anime , with better performance , cause this is not the best way to do it
     const animesWithLastEpisode = await Promise.all(
       animes.map(async (anime) => {
-        const lastEpisode = await this.prisma.episode.findFirst({
-          where: {
-            animeId: anime.id,
-          },
-          orderBy: {
-            number: 'desc',
-          },
-        });
-
-        console.log(lastEpisode);
-
+        const lastEpisode = await this.getLastEpisode(anime.id);
         return {
           ...anime,
           lastEpisode: lastEpisode ? lastEpisode.number : 0,
@@ -31,6 +22,16 @@ export class AnimeService {
     );
 
     return animesWithLastEpisode;
+  }
+  async getLastEpisode(animeId: number) {
+    return this.prisma.episode.findFirst({
+      where: {
+        animeId,
+      },
+      orderBy: {
+        number: 'desc',
+      },
+    });
   }
 
   async getPopularAnimes() {
@@ -42,22 +43,22 @@ export class AnimeService {
   }
 
   async getAnimesSearch(
-    filter: string,
+    query: string,
     // userWhereUniqueInput: Prisma.AnimeWhereUniqueInput,
     orderBy: OrderBy,
-    order: 'asc' | 'desc',
+    order: Order,
   ) {
-    return this.prisma.anime.findMany({
+    const results: Anime[] = await this.prisma.anime.findMany({
       where: {
         OR: [
           {
             title: {
-              contains: filter,
+              contains: query,
             },
           },
           {
             description: {
-              contains: filter,
+              contains: query,
             },
           },
         ],
@@ -66,6 +67,19 @@ export class AnimeService {
         [orderBy]: order,
       },
     });
+
+    // TODO: get the last episode of each anime
+    const animesWithLastEpisode = await Promise.all(
+      results.map(async (anime) => {
+        const lastEpisode = await this.getLastEpisode(anime.id);
+        return {
+          ...anime,
+          lastEpisode: lastEpisode ? lastEpisode.number : 0,
+        };
+      }),
+    );
+
+    return animesWithLastEpisode;
   }
 
   async getAnime(id: number) {
