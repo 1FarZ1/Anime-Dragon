@@ -1,5 +1,6 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { AnimeService } from './animes.service';
+import { AnimeFilterDto } from 'src/common/dto/filter.dto';
 
 @Controller('/animes')
 export class AnimeController {
@@ -14,6 +15,16 @@ export class AnimeController {
   @Get('/popular')
   getPopularAnimes() {
     return this.animeService.getPopularAnimes();
+  }
+
+  // search with filters [Order by rating, name, episodes, etc..]
+  @Get('/search')
+  searchAnimes(@Query() filterDto: AnimeFilterDto) {
+    return this.animeService.getAnimesSearch(
+      filterDto.search,
+      filterDto.orderBy,
+      filterDto.order,
+    );
   }
 
   @Get('/anime/:animeId')

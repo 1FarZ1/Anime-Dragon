@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../db/prisma.service';
+import { OrderBy } from 'src/common/dto/filter.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AnimeService {
@@ -35,6 +37,33 @@ export class AnimeService {
     return this.prisma.anime.findMany({
       orderBy: {
         rating: 'desc',
+      },
+    });
+  }
+
+  async getAnimesSearch(
+    filter: string,
+    // userWhereUniqueInput: Prisma.AnimeWhereUniqueInput,
+    orderBy: OrderBy,
+    order: 'asc' | 'desc',
+  ) {
+    return this.prisma.anime.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: filter,
+            },
+          },
+          {
+            description: {
+              contains: filter,
+            },
+          },
+        ],
+      },
+      orderBy: {
+        [orderBy]: order,
       },
     });
   }
