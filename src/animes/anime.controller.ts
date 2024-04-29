@@ -11,13 +11,11 @@ export class AnimeController {
     return this.animeService.getAnimes();
   }
 
-  // most popolur animes
   @Get('/popular')
   getPopularAnimes() {
     return this.animeService.getPopularAnimes();
   }
 
-  // search with filters [Order by rating, name, episodes, etc..]
   @Get('/search')
   searchAnimes(@Query() filterDto: AnimeFilterDto) {
     return this.animeService.getAnimesSearch(
@@ -31,12 +29,6 @@ export class AnimeController {
   getAnime(@Param('animeId', ParseIntPipe) animeId: number) {
     return this.animeService.getAnime(animeId);
   }
-
-  // get favorite animes
-  // @Get('/favorites')
-  // getFavorites() {
-  //   return this.animeService.getFavorites();
-  // }
 
   //   @Post('/add')
   //   addAnime(): string {

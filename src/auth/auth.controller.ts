@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Header,
   HttpCode,
   HttpStatus,
   Post,
@@ -34,6 +35,8 @@ export class AuthController {
 
   @Post('/register')
   @ApiConsumes('multipart/form-data')
+  //TODO
+  // @Header()
   @ApiBody({
     schema: {
       type: 'object',

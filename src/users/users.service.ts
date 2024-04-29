@@ -14,15 +14,17 @@ type User = {
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto, avatar: string) {
     const newUser = await this.prisma.user.create({
       data: {
         email: createUserDto.email,
         password: createUserDto.password,
-        avatar: createUserDto.avatar,
+        avatar: avatar,
         name: createUserDto.name,
       },
     });
+
+    return newUser;
   }
 
   findAll() {
@@ -30,26 +32,19 @@ export class UsersService {
   }
 
   async findOneByEmail(email: string) {
-    // return this.prisma.user.findUnique({
-    //   where: {
-    //     email,
-    //   },
-    // });
-    const tempUser: User = {
-      id: 1,
-      email: 'dasdas',
-      password: 'dasdasd',
-    };
-    return tempUser;
+    return this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
   }
 
   async findOneById(id: number) {
-    // return this.prisma.user.findUnique({
-    //   where: {
-    //     id,
-    //   },
-    // });
-    return {};
+    return this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

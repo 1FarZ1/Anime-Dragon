@@ -1,10 +1,10 @@
 import { sign, verify } from 'jsonwebtoken';
-import { Role } from './enums';
+import { RoleType } from '@prisma/client';
 
 export type jwtPayload = {
   id: number;
   email: string;
-  role: Role;
+  role: RoleType;
 };
 
 export class JwtManager {

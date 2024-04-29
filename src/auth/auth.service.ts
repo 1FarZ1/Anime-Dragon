@@ -33,7 +33,10 @@ export class AuthService {
     };
   }
 
-  async register(createUserDto: CreateUserDto): Promise<Result> {
+  async register(
+    createUserDto: CreateUserDto,
+    avatar: string,
+  ): Promise<Result> {
     const user = await this.userService.findOneByEmail(createUserDto.email);
     if (user) {
       throw new BadRequestException('User already exists');
@@ -41,7 +44,7 @@ export class AuthService {
     createUserDto.password = await HashingHelper.hashPassword(
       createUserDto.password,
     );
-    const newUser = await this.userService.create(createUserDto);
+    const newUser = await this.userService.create(createUserDto, avatar);
     const payload: jwtPayload = (({ id, email, role }) => ({
       id,
       email,
