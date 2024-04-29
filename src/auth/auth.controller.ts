@@ -21,6 +21,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { multerOptions } from 'src/utils/multer.options';
 
 @Controller('/auth')
 @ApiTags('auth')
@@ -30,50 +31,25 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   login(@Req() req) {
-    // return this.authService.login(req.user);
+    console.log(req.user);
+    return this.authService.login({
+      id: req.user.userId,
+      email: req.user.email,
+      role: req.user.role,
+    });
   }
 
   @Post('/register')
   @ApiConsumes('multipart/form-data')
   //TODO
   // @Header()
-  @ApiBody({
-    schema: {
-      type: 'object',
-      properties: {
-        avatar: {
-          type: 'string',
-          format: 'binary',
-        },
-
-        email: {
-          type: 'string',
-          format: 'email',
-        },
-
-        password: {
-          type: 'string',
-          format: 'password',
-        },
-        name: {
-          type: 'string',
-          format: 'string',
-        },
-      },
-    },
-  })
-  @UseInterceptors(FileInterceptor('avatar'))
+  @UseInterceptors(FileInterceptor('avatar', multerOptions))
   @HttpCode(HttpStatus.CREATED)
-  @ApiCreatedResponse({
-    description: 'The record has been successfully created.',
-  })
   register(
     @Body() createUserDto: CreateUserDto,
     @UploadedFile() avatar: Express.Multer.File,
   ) {
-    // return file path
-    return avatar.path;
-    // return this.authService.register(createUserDto);
+    return this.authService.register(createUserDto, avatar.path);
   }
 }
 

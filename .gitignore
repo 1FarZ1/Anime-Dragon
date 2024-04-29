@@ -34,3 +34,12 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 .env
+.VSCodeCounter/2024-04-29_23-34-38/details.md
+.VSCodeCounter/2024-04-29_23-34-38/diff-details.md
+.VSCodeCounter/2024-04-29_23-34-38/diff.csv
+.VSCodeCounter/2024-04-29_23-34-38/diff.md
+.VSCodeCounter/2024-04-29_23-34-38/diff.txt
+.VSCodeCounter/2024-04-29_23-34-38/results.csv
+.VSCodeCounter/2024-04-29_23-34-38/results.json
+.VSCodeCounter/2024-04-29_23-34-38/results.md
+.VSCodeCounter/2024-04-29_23-34-38/results.txt
