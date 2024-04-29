@@ -4,6 +4,7 @@ import { HashingHelper } from '../utils/hash';
 import { PrismaService } from 'src/db/prisma.service';
 import { JwtManager, jwtPayload } from 'src/utils/jwt.util';
 import { CreateUserDto } from './dto/create-user.dto';
+import { AuthResult } from './types/authResult.type';
 
 @Injectable()
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
 
   async validateUser(email: string, passwordI: string) {
     const user = await this.userService.findOneByEmail(email);
+
     if (!user) {
       throw new BadRequestException('Invalid credentials');
     }
@@ -26,7 +28,7 @@ export class AuthService {
     return result;
   }
 
-  async login(payload: jwtPayload): Promise<Result> {
+  async login(payload: jwtPayload): Promise<AuthResult> {
     return {
       message: 'Login successful',
       access_token: JwtManager.sign(payload),
@@ -36,7 +38,7 @@ export class AuthService {
   async register(
     createUserDto: CreateUserDto,
     avatar: string,
-  ): Promise<Result> {
+  ): Promise<AuthResult> {
     const user = await this.userService.findOneByEmail(createUserDto.email);
     if (user) {
       throw new BadRequestException('User already exists');
@@ -57,10 +59,3 @@ export class AuthService {
     };
   }
 }
-
-type Result = {
-  message: string;
-  access_token: string;
-};
-
-

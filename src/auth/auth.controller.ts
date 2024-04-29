@@ -1,7 +1,6 @@
 import {
   Body,
   Controller,
-  Get,
   Header,
   HttpCode,
   HttpStatus,
@@ -14,12 +13,7 @@ import {
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LocalAuthGuard } from './guards/local-auth.gaurd';
-import {
-  ApiBody,
-  ApiConsumes,
-  ApiCreatedResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/utils/multer.options';
 
