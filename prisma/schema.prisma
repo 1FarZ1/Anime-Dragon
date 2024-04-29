@@ -40,7 +40,11 @@ model Episode {
 model Anime {
   id          Int      @id @default(autoincrement())
   title       String
-  description String
+  description String @db.VarChar(2000)
+  // age
+  minAge     Int   @default(13)
+  releaseDate DateTime?
+  source     String @db.VarChar(100) @default("مانجا")
   image       String
   rating      Float  @default(0)
   episodes    Episode[]
@@ -51,6 +55,23 @@ model Anime {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
 }
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  role      RoleType @default(USER)
+  avatar    String    @db.VarChar(1000)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+}
+
+enum RoleType {
+   USER
+   ADMIN
+ }
 
 
 // model AnimeTag {

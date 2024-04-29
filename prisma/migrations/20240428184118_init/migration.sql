@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `anime` ADD COLUMN `minAge` INTEGER NOT NULL DEFAULT 13,
+    ADD COLUMN `releaseDate` DATETIME(3) NULL,
+    MODIFY `description` VARCHAR(2000) NOT NULL;
