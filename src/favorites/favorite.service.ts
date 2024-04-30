@@ -1,4 +1,77 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { AnimeService } from 'src/animes/animes.service';
+import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
-export class FavoriteService {}
+export class FavoriteService {
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly animeService: AnimeService,
+  ) {}
+  async addToFavorites(userId: number, animeId: number) {
+    const anime = await this.prismaService.anime.findUnique({
+      where: { id: animeId },
+    });
+    if (!anime) {
+      throw new NotFoundException('Anime not found');
+    }
+    const favorite = await this.prismaService.favorite.findFirst({
+      where: { userId, animeId },
+    });
+    if (favorite) {
+      throw new NotFoundException('Favorite already exists');
+    }
+    const res = await this.prismaService.favorite.create({
+      data: { userId, animeId },
+    });
+    if (res) {
+      return {
+        message: 'Favorite added successfully',
+        status: 200,
+      };
+    }
+  }
+
+  async removeFromFavorites(userId: number, animeId: number) {
+    const favorite = await this.prismaService.favorite.findFirst({
+      where: { userId, animeId },
+    });
+    if (!favorite) {
+      throw new NotFoundException('Favorite not found');
+    }
+    const res = await this.prismaService.favorite.delete({
+      where: {
+        userId_animeId: {
+          userId,
+          animeId,
+        },
+      },
+    });
+    if (res) {
+      return {
+        message: 'Favorite removed successfully',
+        status: 200,
+      };
+    }
+  }
+
+  async getUserFavorites(userId: number) {
+    const result = await this.prismaService.favorite.findMany({
+      where: { userId },
+      select: { anime: true },
+    });
+    // get the last episode and map it to the anime
+    const favorites = await Promise.all(
+      result.map(async (fav) => {
+        const lastEpisode = await this.animeService.getLastEpisode(
+          fav.anime.id,
+        );
+        return {
+          ...fav.anime,
+          lastEpisode: lastEpisode ? lastEpisode.number : 0,
+        };
+      }),
+    );
+    return favorites;
+  }
+}

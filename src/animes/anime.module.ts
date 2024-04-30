@@ -9,5 +9,6 @@ import { EpisodesService } from './episodes.service';
   imports: [],
   controllers: [AnimeController, EpisodesController],
   providers: [AnimeService, PrismaService, EpisodesService],
+  exports: [AnimeService],
 })
 export class AnimeModule {}

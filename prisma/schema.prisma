@@ -48,6 +48,7 @@ model Anime {
   image       String
   rating      Float  @default(0)
   episodes    Episode[]
+  usersFavorite Favorite[]
   //isCompleted
   Ended      Boolean @default(false)  
 
@@ -63,9 +64,18 @@ model User {
   name      String
   role      RoleType @default(USER)
   avatar    String    @db.VarChar(1000)
+  favorites Favorite[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
+}
+
+model Favorite{
+  userId Int
+  animeId Int
+  user User @relation(fields: [userId], references: [id])
+  anime Anime @relation(fields: [animeId], references: [id])
+  @@id([userId, animeId])
 }
 
 enum RoleType {
