@@ -4,7 +4,7 @@ import { HashingHelper } from '../utils/hash';
 import { PrismaService } from 'src/db/prisma.service';
 import { JwtManager, jwtPayload } from 'src/utils/jwt.util';
 import { CreateUserDto } from './dto/create-user.dto';
-import { AuthResult } from './types/authResult.type';
+import { AuthResult } from './types/result.type';
 
 @Injectable()
 export class AuthService {

@@ -16,6 +16,7 @@ import { LocalAuthGuard } from './guards/local-auth.gaurd';
 import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/utils/multer.options';
+import * as fs from 'fs';
 
 @Controller('/auth')
 @ApiTags('auth')
@@ -25,7 +26,6 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('/login')
   login(@Req() req) {
-    console.log(req.user);
     return this.authService.login({
       id: req.user.userId,
       email: req.user.email,
@@ -39,11 +39,23 @@ export class AuthController {
   // @Header()
   @UseInterceptors(FileInterceptor('avatar', multerOptions))
   @HttpCode(HttpStatus.CREATED)
-  register(
+  async register(
     @Body() createUserDto: CreateUserDto,
     @UploadedFile() avatar: Express.Multer.File,
   ) {
-    return this.authService.register(createUserDto, avatar.path);
+    try {
+      // Attempt to register the user
+      const user = await this.authService.register(createUserDto, avatar.path);
+
+      // If registration succeeds, return the user data
+      return user;
+    } catch (error) {
+      // If user already exists, delete the uploaded file
+      if (avatar && avatar.path) {
+        fs.unlinkSync(avatar.path);
+      }
+      throw error;
+    }
   }
 }
 
