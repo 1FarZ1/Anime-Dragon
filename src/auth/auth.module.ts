@@ -9,7 +9,15 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
-  imports: [UsersModule, PassportModule],
+  imports: [
+    UsersModule,
+    PassportModule,
+    // JwtModule.register({
+    //   secret: process.env.JWT_SECRET || TempConsts.jwt_secret,
+    //   signOptions: { expiresIn: process.env.JWT_EXPIRE_TIME || '10000s' },
+    // }
+    // ),
+  ],
   controllers: [AuthController],
   providers: [
     AuthService,

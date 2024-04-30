@@ -27,7 +27,7 @@ export class AuthController {
   @Post('/login')
   login(@Req() req) {
     return this.authService.login({
-      id: req.user.userId,
+      id: req.user.id,
       email: req.user.email,
       role: req.user.role,
     });

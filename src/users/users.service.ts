@@ -40,11 +40,20 @@ export class UsersService {
   }
 
   async findOneById(id: number) {
-    return this.prisma.user.findUnique({
-      where: {
-        id,
-      },
-    });
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      // remove password
+      delete user.password;
+
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   // update(id: number, updateUserDto: UpdateUserDto) {

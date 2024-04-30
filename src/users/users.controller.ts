@@ -2,6 +2,7 @@ import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { jwtPayload } from 'src/utils/jwt.util';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.gaurd';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('users')
 export class UsersController {
@@ -17,16 +18,15 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Get('/me')
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  getUserInfo(@Req() req) {
+    return this.usersService.findOneById(req.user.id);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOneById(+id);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('/me')
-  getCurrentUser(@Req() req) {
-    const payload: jwtPayload = req.user;
-    return this.usersService.findOneById(payload.id);
   }
 
   // @Patch(':id')
