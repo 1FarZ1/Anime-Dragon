@@ -44,13 +44,10 @@ export class AuthController {
     @UploadedFile() avatar: Express.Multer.File,
   ) {
     try {
-      // Attempt to register the user
       const user = await this.authService.register(createUserDto, avatar.path);
 
-      // If registration succeeds, return the user data
       return user;
     } catch (error) {
-      // If user already exists, delete the uploaded file
       if (avatar && avatar.path) {
         fs.unlinkSync(avatar.path);
       }
