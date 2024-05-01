@@ -32,7 +32,7 @@ export class FavoriteService {
         },
       },
     });
-    const completeAnime = await this.animeService.fillAnimes([res.anime]);
+    const completeAnime = await this.animeService.fillAnime(res.anime);
 
     if (completeAnime) {
       return {
@@ -80,6 +80,8 @@ export class FavoriteService {
       },
     });
     // get the last episode and map it to the anime
-    return await this.animeService.fillAnimes(result.map((fav) => fav.anime));
+    return await this.animeService.fillAnimesWithIds(
+      result.map((item) => item.anime.id),
+    );
   }
 }

@@ -22,7 +22,7 @@ export class CollectionService {
     });
 
     const animeIds = result.map((item) => item.anime.id);
-    const animes = await this.animeService.getAnimesWithIds(animeIds);
+    const animes = await this.animeService.fillAnimesWithIds(animeIds);
 
     return animes;
   }

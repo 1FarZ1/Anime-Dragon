@@ -19,28 +19,26 @@ export class AnimeService {
         characters: true,
       },
     });
-    const completedAnimes = await this.fillAnimes(animes);
+
+    // promise to fill the animes with data
+    const completedAnimes = await Promise.all(
+      animes.map((anime) => this.fillAnime(anime)),
+    );
     return completedAnimes;
   }
 
   //TODO: Implement the logic to get the last episode of each anime , with better performance , cause this is not the best way to do it
-  async fillAnimes(animes: Anime[]): Promise<any> {
-    const completedAnimes = await Promise.all(
-      animes.map(async (anime) => {
-        // TODO:MAYBE change this later on
-        const lastEpisode = await this.getLastEpisode(anime.id);
-        const { averageRating, numberOfReviews } =
-          await this.reviewsService.getAnimeRating(anime.id);
+  async fillAnime(anime: Anime): Promise<any> {
+    const lastEpisode = await this.getLastEpisode(anime.id);
+    const { averageRating, numberOfReviews } =
+      await this.reviewsService.getAnimeRating(anime.id);
 
-        return {
-          ...anime,
-          lastEpisode: lastEpisode ? lastEpisode.number : 0,
-          rating: averageRating,
-          numberOfReviews: numberOfReviews,
-        };
-      }),
-    );
-    return completedAnimes;
+    return {
+      ...anime,
+      lastEpisode: lastEpisode ? lastEpisode.number : 0,
+      rating: averageRating,
+      numberOfReviews: numberOfReviews,
+    };
   }
   async getLastEpisode(animeId: number) {
     return this.prisma.episode.findFirst({
@@ -53,7 +51,7 @@ export class AnimeService {
     });
   }
 
-  async getAnimesWithIds(ids: number[]) {
+  async fillAnimesWithIds(ids: number[]) {
     const animes = await this.prisma.anime.findMany({
       where: {
         id: {
@@ -65,8 +63,10 @@ export class AnimeService {
         characters: true,
       },
     });
-    //fill them
-    const completedAnimes = await this.fillAnimes(animes);
+
+    const completedAnimes = await Promise.all(
+      animes.map((anime) => this.fillAnime(anime)),
+    );
     return completedAnimes;
   }
 
@@ -108,18 +108,10 @@ export class AnimeService {
       },
     });
 
-    // TODO: get the last episode of each anime
-    const animesWithLastEpisode = await Promise.all(
-      results.map(async (anime) => {
-        const lastEpisode = await this.getLastEpisode(anime.id);
-        return {
-          ...anime,
-          lastEpisode: lastEpisode ? lastEpisode.number : 0,
-        };
-      }),
+    const completedAnimes = await Promise.all(
+      results.map((anime) => this.fillAnime(anime)),
     );
-
-    return animesWithLastEpisode;
+    return completedAnimes;
   }
 
   async getAnime(id: number) {
