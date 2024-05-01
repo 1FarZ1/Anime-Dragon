@@ -28,13 +28,13 @@ model Episode {
 
 }
 
-// model Tag {
-//  id        Int      @id @default(autoincrement())
-//  name      String
-//  animes    Anime[]
-//  createdAt DateTime @default(now())
-//  updatedAt DateTime @default(now())
-//}
+ model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String
+  animes    AnimeTag[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
 
 
 model Anime {
@@ -55,7 +55,7 @@ model Anime {
   userListed UserAnimeList[] 
   characters  AnimeCharacter[] 
 
- // tags        Tag[]
+  tags        AnimeTag[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
 }
@@ -134,12 +134,12 @@ enum RoleType {
  }
 
 
-// model AnimeTag {
-//   animeId Int
-//   tagId   Int
-//   anime   Anime @relation(fields: [animeId], references: [id])
-//   tag     Tag   @relation(fields: [tagId], references: [id])
-// 
-//   @@id([animeId, tagId])
-// 
-// }
+ model AnimeTag {
+   animeId Int
+   tagId   Int
+   anime   Anime @relation(fields: [animeId], references: [id])
+   tag     Tag   @relation(fields: [tagId], references: [id])
+ 
+   @@id([animeId, tagId])
+ 
+ }

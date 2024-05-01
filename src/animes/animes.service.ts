@@ -53,6 +53,23 @@ export class AnimeService {
     });
   }
 
+  async getAnimesWithIds(ids: number[]) {
+    const animes = await this.prisma.anime.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+      include: {
+        studio: true,
+        characters: true,
+      },
+    });
+    //fill them
+    const completedAnimes = await this.fillAnimes(animes);
+    return completedAnimes;
+  }
+
   async getPopularAnimes() {
     return this.prisma.anime.findMany({
       orderBy: {

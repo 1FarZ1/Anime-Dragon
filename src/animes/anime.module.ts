@@ -11,6 +11,6 @@ import { ReviewsModule } from 'src/reviews/reviews.module';
   imports: [ReviewsModule],
   controllers: [AnimeController, EpisodesController],
   providers: [AnimeService, PrismaService, EpisodesService, ReviewsService],
-  exports: [AnimeService],
+  exports: [AnimeService, ReviewsService],
 })
 export class AnimeModule {}

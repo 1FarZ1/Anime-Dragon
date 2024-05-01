@@ -266,3 +266,29 @@ values
     ('Kakashi', 'main', 'https://cdn.myanimelist.net/images/characters/6/34043.jpg', 4),
     ('Sasuke', 'main', 'https://cdn.myanimelist.net/images/characters/11/34691.jpg', 4),
     ('Naruto', 'main', 'https://cdn.myanimelist.net/images/characters/6/37851.jpg', 4);
+
+
+
+
+INSERT INTO tag (name)
+-- in arabic
+VALUES
+('أكشن'),
+('مغامرة'),
+('كوميديا'),
+('دراما'),
+('خيال'),
+('رعب'),
+('موسيقى'),
+('رومانسي'),
+('خيال علمي'),
+('سينين'),
+('شوجو'),
+('شونين'),
+('رياضي');
+
+
+
+-- add some anime tags
+INSERT INTO animetag (`animeId`,`tagId`)
+ -- id of animes from 4 to 15

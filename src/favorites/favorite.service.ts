@@ -23,11 +23,22 @@ export class FavoriteService {
     }
     const res = await this.prismaService.favorite.create({
       data: { userId, animeId },
+      include: {
+        anime: {
+          include: {
+            studio: true,
+            characters: true,
+          },
+        },
+      },
     });
-    if (res) {
+    const completeAnime = await this.animeService.fillAnimes([res.anime]);
+
+    if (completeAnime) {
       return {
         message: 'Favorite added successfully',
         status: 200,
+        anime: completeAnime[0],
       };
     }
   }
