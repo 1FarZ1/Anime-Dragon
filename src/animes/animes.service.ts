@@ -12,6 +12,7 @@ export class AnimeService {
     const animes = await this.prisma.anime.findMany({
       include: {
         studio: true,
+        characters: true,
       },
     });
     //TODO: Implement the logic to get the last episode of each anime , with better performance , cause this is not the best way to do it

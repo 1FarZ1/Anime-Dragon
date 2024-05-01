@@ -52,7 +52,8 @@ model Anime {
   reviews     Review[]
   usersFavorite Favorite[]
   Ended      Boolean @default(false)
-  userListed UserAnimeList[]  
+  userListed UserAnimeList[] 
+  characters  AnimeCharacter[] 
 
  // tags        Tag[]
   createdAt   DateTime @default(now())
@@ -102,6 +103,23 @@ model Review{
 
 }
 
+
+
+model AnimeCharacter {
+  id        Int      @id @default(autoincrement())
+  name      String
+  role      CharacterType
+  image     String  @db.VarChar(1000)  
+  animeId   Int
+  anime     Anime    @relation(fields: [animeId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  }
+
+enum CharacterType {
+  MAIN
+  SUPPORT
+}
 enum RoleType {
    USER
    ADMIN

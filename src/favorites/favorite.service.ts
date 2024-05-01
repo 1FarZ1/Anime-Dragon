@@ -58,7 +58,14 @@ export class FavoriteService {
   async getUserFavorites(userId: number) {
     const result = await this.prismaService.favorite.findMany({
       where: { userId },
-      select: { anime: true },
+      include: {
+        // studio of anime
+        anime: {
+          include: {
+            studio: true,
+          },
+        },
+      },
     });
     // get the last episode and map it to the anime
     const favorites = await Promise.all(

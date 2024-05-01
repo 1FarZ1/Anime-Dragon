@@ -253,3 +253,16 @@ INSERT INTO user (name, email, password, avatar) VALUES
   '$2b$10$e.rxuW2H9JvNsE8.90pEzu9JLL/d1m2I.AZ.uyMdHvzHZ0ILrYNI2',
   'uploads\images\1714438477720-IMG_Ù¢Ù Ù¢Ù£Ù¡Ù Ù¢Ù¦_Ù¡Ù¨Ù¢Ù©Ù Ù¤.jpg'
 );
+
+
+insert into 
+    animecharacter (
+        name, 
+        role, 
+        image, 
+        `animeId`
+    )
+values
+    ('Kakashi', 'main', 'https://cdn.myanimelist.net/images/characters/6/34043.jpg', 4),
+    ('Sasuke', 'main', 'https://cdn.myanimelist.net/images/characters/11/34691.jpg', 4),
+    ('Naruto', 'main', 'https://cdn.myanimelist.net/images/characters/6/37851.jpg', 4);
