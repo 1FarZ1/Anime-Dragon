@@ -21,6 +21,8 @@ export class AnimeService {
       }),
     );
 
+    //add isFavorite to them
+
     return animesWithLastEpisode;
   }
   async getLastEpisode(animeId: number) {

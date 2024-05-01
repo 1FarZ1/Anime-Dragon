@@ -9,7 +9,7 @@ export type jwtPayload = {
 
 export class JwtManager {
   private static secret = 'secret' || process.env.JWT_SECRET;
-  private static expiration = '10000s' || process.env.JWT_EXPIRE_TIME;
+  private static expiration = '60d' || process.env.JWT_EXPIRE_TIME;
 
   static sign(payload: jwtPayload): string {
     return sign(payload, this.secret, { expiresIn: this.expiration });
