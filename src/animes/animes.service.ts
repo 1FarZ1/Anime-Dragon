@@ -17,6 +17,16 @@ export class AnimeService {
       include: {
         studio: true,
         characters: true,
+        tags: {
+          select: {
+            tag: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
+          },
+        },
       },
     });
 

@@ -7,6 +7,5 @@ import { PrismaService } from 'src/db/prisma.service';
   controllers: [ReviewsController],
   providers: [ReviewsService, PrismaService],
   exports: [ReviewsService],
-
 })
 export class ReviewsModule {}
