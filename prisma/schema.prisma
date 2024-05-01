@@ -41,20 +41,29 @@ model Anime {
   id          Int      @id @default(autoincrement())
   title       String
   description String @db.VarChar(2000)
-  // age
   minAge     Int   @default(13)
   releaseDate DateTime?
   source     String @db.VarChar(100) @default("مانجا")
   image       String
   rating      Float  @default(0)
+  studioId    Int @default(0)
+  studio      Studio   @relation(fields: [studioId], references: [id])
   episodes    Episode[]
   usersFavorite Favorite[]
-  //isCompleted
-  Ended      Boolean @default(false)  
+  Ended      Boolean @default(false)
+  userListed UserAnimeList[]  
 
  // tags        Tag[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
+}
+
+model Studio {
+  id        Int      @id @default(autoincrement())
+  name      String
+  animes    Anime[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 }
 
 model User {
@@ -65,6 +74,7 @@ model User {
   role      RoleType @default(USER)
   avatar    String    @db.VarChar(1000)
   favorites Favorite[]
+  animeList UserAnimeList[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
@@ -81,6 +91,14 @@ model Favorite{
 enum RoleType {
    USER
    ADMIN
+ }
+
+ model UserAnimeList {
+  userId Int
+  animeId Int
+  user User @relation(fields: [userId], references: [id])
+  anime Anime @relation(fields: [animeId], references: [id])
+  @@id([userId, animeId])
  }
 
 

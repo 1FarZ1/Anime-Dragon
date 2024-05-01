@@ -9,7 +9,11 @@ export class AnimeService {
   constructor(private prisma: PrismaService) {}
 
   async getAnimes() {
-    const animes = await this.prisma.anime.findMany();
+    const animes = await this.prisma.anime.findMany({
+      include: {
+        studio: true,
+      },
+    });
     //TODO: Implement the logic to get the last episode of each anime , with better performance , cause this is not the best way to do it
     const animesWithLastEpisode = await Promise.all(
       animes.map(async (anime) => {
