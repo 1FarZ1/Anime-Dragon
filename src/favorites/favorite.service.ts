@@ -69,17 +69,6 @@ export class FavoriteService {
       },
     });
     // get the last episode and map it to the anime
-    const favorites = await Promise.all(
-      result.map(async (fav) => {
-        const lastEpisode = await this.animeService.getLastEpisode(
-          fav.anime.id,
-        );
-        return {
-          ...fav.anime,
-          lastEpisode: lastEpisode ? lastEpisode.number : 0,
-        };
-      }),
-    );
-    return favorites;
+    return await this.animeService.fillAnimes(result.map((fav) => fav.anime));
   }
 }

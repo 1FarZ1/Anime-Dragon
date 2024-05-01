@@ -19,10 +19,15 @@ export class AnimeService {
         characters: true,
       },
     });
-    //TODO: Implement the logic to get the last episode of each anime , with better performance , cause this is not the best way to do it
+    const completedAnimes = await this.fillAnimes(animes);
+    return completedAnimes;
+  }
+
+  //TODO: Implement the logic to get the last episode of each anime , with better performance , cause this is not the best way to do it
+  async fillAnimes(animes: Anime[]): Promise<any> {
     const completedAnimes = await Promise.all(
       animes.map(async (anime) => {
-        // todo:MAYBE change this later on
+        // TODO:MAYBE change this later on
         const lastEpisode = await this.getLastEpisode(anime.id);
         const { averageRating, numberOfReviews } =
           await this.reviewsService.getAnimeRating(anime.id);
@@ -35,7 +40,6 @@ export class AnimeService {
         };
       }),
     );
-
     return completedAnimes;
   }
   async getLastEpisode(animeId: number) {
