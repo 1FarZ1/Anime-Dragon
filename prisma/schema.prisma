@@ -49,6 +49,7 @@ model Anime {
   studioId    Int @default(0)
   studio      Studio   @relation(fields: [studioId], references: [id])
   episodes    Episode[]
+  reviews     Review[]
   usersFavorite Favorite[]
   Ended      Boolean @default(false)
   userListed UserAnimeList[]  
@@ -74,6 +75,7 @@ model User {
   role      RoleType @default(USER)
   avatar    String    @db.VarChar(1000)
   favorites Favorite[]
+  reviews Review[]
   animeList UserAnimeList[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
@@ -86,6 +88,18 @@ model Favorite{
   user User @relation(fields: [userId], references: [id])
   anime Anime @relation(fields: [animeId], references: [id])
   @@id([userId, animeId])
+}
+
+model Review{
+  id Int @id @default(autoincrement())
+  userId Int
+  animeId Int
+  user User @relation(fields: [userId], references: [id])
+  anime Anime @relation(fields: [animeId], references: [id])
+  rating Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
 }
 
 enum RoleType {
