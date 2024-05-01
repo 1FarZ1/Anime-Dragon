@@ -13,6 +13,19 @@ export class ReviewsService {
     return reviews;
   }
 
+  // get anime number of reviews , and average rating
+  async getAnimeRating(animeId: number) {
+    const reviews = await this.prismaService.review.findMany({
+      where: { animeId },
+    });
+    const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
+    const averageRating = totalRating / reviews.length;
+    return {
+      numberOfReviews: reviews.length,
+      averageRating,
+    };
+  }
+
   async addRating(userId: number, addRatingDto: AddReviewDto) {
     const { animeId, rating } = addRatingDto;
     const review = await this.prismaService.review.findFirst({

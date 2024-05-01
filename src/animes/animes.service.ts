@@ -2,11 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../db/prisma.service';
 import { Order, OrderBy } from 'src/common/dto/filter.dto';
 import { Anime } from '@prisma/client';
+import { ReviewsService } from 'src/reviews/reviews.service';
 // import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AnimeService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private readonly reviewsService: ReviewsService,
+  ) {}
 
   async getAnimes() {
     const animes = await this.prisma.anime.findMany({
@@ -16,19 +20,23 @@ export class AnimeService {
       },
     });
     //TODO: Implement the logic to get the last episode of each anime , with better performance , cause this is not the best way to do it
-    const animesWithLastEpisode = await Promise.all(
+    const completedAnimes = await Promise.all(
       animes.map(async (anime) => {
         const lastEpisode = await this.getLastEpisode(anime.id);
+        const { averageRating, numberOfReviews } =
+          await this.reviewsService.getAnimeRating(anime.id);
         return {
           ...anime,
           lastEpisode: lastEpisode ? lastEpisode.number : 0,
+          rating: averageRating,
+          numberOfReviews,
         };
       }),
     );
 
-    //add isFavorite to them
-
-    return animesWithLastEpisode;
+    return {
+      ...completedAnimes,
+    };
   }
   async getLastEpisode(animeId: number) {
     return this.prisma.episode.findFirst({

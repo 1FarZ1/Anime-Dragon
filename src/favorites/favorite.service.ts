@@ -63,6 +63,7 @@ export class FavoriteService {
         anime: {
           include: {
             studio: true,
+            characters: true,
           },
         },
       },
