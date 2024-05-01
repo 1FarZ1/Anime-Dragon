@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/db/prisma.service';
-import { AddRatingDto } from './dto/add_rating.dto';
+import { AddReviewDto } from './dto/add_rating.dto';
 
 @Injectable()
 export class ReviewsService {
@@ -13,7 +13,7 @@ export class ReviewsService {
     return reviews;
   }
 
-  async addRating(userId: number, addRatingDto: AddRatingDto) {
+  async addRating(userId: number, addRatingDto: AddReviewDto) {
     const { animeId, rating } = addRatingDto;
     const review = await this.prismaService.review.findFirst({
       where: { userId, animeId },
