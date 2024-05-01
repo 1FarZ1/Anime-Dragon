@@ -22,21 +22,21 @@ export class AnimeService {
     //TODO: Implement the logic to get the last episode of each anime , with better performance , cause this is not the best way to do it
     const completedAnimes = await Promise.all(
       animes.map(async (anime) => {
+        // todo:MAYBE change this later on
         const lastEpisode = await this.getLastEpisode(anime.id);
         const { averageRating, numberOfReviews } =
           await this.reviewsService.getAnimeRating(anime.id);
+
         return {
           ...anime,
           lastEpisode: lastEpisode ? lastEpisode.number : 0,
           rating: averageRating,
-          numberOfReviews,
+          numberOfReviews: numberOfReviews,
         };
       }),
     );
 
-    return {
-      ...completedAnimes,
-    };
+    return completedAnimes;
   }
   async getLastEpisode(animeId: number) {
     return this.prisma.episode.findFirst({
@@ -77,6 +77,10 @@ export class AnimeService {
             },
           },
         ],
+      },
+      include: {
+        studio: true,
+        characters: true,
       },
       orderBy: {
         [orderBy]: order,

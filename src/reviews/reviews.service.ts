@@ -19,7 +19,8 @@ export class ReviewsService {
       where: { animeId },
     });
     const totalRating = reviews.reduce((acc, review) => acc + review.rating, 0);
-    const averageRating = totalRating / reviews.length;
+    if (totalRating === 0) return { numberOfReviews: 0, averageRating: 0 };
+    const averageRating = parseFloat((totalRating / reviews.length).toFixed(2));
     return {
       numberOfReviews: reviews.length,
       averageRating,
