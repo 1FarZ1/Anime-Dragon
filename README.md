@@ -2,6 +2,10 @@
 
 - Anime Dragon is a Anime Slayer Backend for the Anime Slayer App Clone , it functions exactly as the Original Anime Slayer but with minor changes and improvements.
 
+## Status
+
+- Still in Dev Phase
+
 ## Features
 
 - Watch Anime Episodes
