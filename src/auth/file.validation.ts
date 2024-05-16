@@ -1,10 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
 
 @Injectable()
 export class FileSizeValidationPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
-    // "value" is an object containing the file's attributes and metadata
     const oneKb = 1000;
-    return value.size < oneKb;
+    if (metadata.type !== 'body' || !value) {
+      return value;
+    }
+
+    return value.size < oneKb * 1024 * 1024 * 5 ? value : null;
   }
 }
