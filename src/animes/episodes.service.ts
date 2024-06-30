@@ -29,19 +29,17 @@ export class EpisodesService {
     return episode;
   }
 
-  async getEpisodePath(episodeId: number) {
-    const episode = await this.getEpisode(episodeId);
-
+  async getEpisodePath(animeId: number, episodeNumber: number) {
+    const episode = await this.prismaService.episode.findFirst({
+      where: {
+        animeId,
+        number: episodeNumber,
+      },
+    });
     if (!episode) {
       throw new BadRequestException('Episode not found');
     }
-    try {
-      const filePath = episode.videoPath;
-      return filePath;
-    } catch (error) {
-      console.error('Error streaming episode:', error);
-      throw new InternalServerErrorException('Internal server error');
-    }
+    return episode.videoPath;
   }
 
   //   async addEpisode(data: { animeId: number; name: string; videoUrl: string }) {

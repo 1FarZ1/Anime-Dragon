@@ -43,3 +43,5 @@ lerna-debug.log*
 .VSCodeCounter/2024-04-29_23-34-38/results.json
 .VSCodeCounter/2024-04-29_23-34-38/results.md
 .VSCodeCounter/2024-04-29_23-34-38/results.txt
+
+./uploads/

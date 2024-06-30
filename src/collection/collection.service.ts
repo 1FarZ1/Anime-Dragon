@@ -9,23 +9,23 @@ export class CollectionService {
     private readonly animeService: AnimeService,
   ) {}
 
-  async getCollection(userId: number) {
-    const result = await this.prismaService.userAnimeList.findMany({
-      where: { userId },
-      include: {
-        anime: {
-          select: {
-            id: true,
-          },
-        },
-      },
-    });
+  // async getCollection(userId: number) {
+  //   const result = await this.prismaService.userAnimeList.findMany({
+  //     where: { userId },
+  //     include: {
+  //       anime: {
+  //         select: {
+  //           id: true,
+  //         },
+  //       },
+  //     },
+  //   });
 
-    const animeIds = result.map((item) => item.anime.id);
-    const animes = await this.animeService.fillAnimesWithIds(animeIds);
+  //   const animeIds = result.map((item) => item.anime.id);
+  //   const animes = await this.animeService.fillAnimesWithIds(animeIds);
 
-    return animes;
-  }
+  //   return animes;
+  // }
 
   async addToCollection(userId: number, animeId: number) {
     const anime = await this.prismaService.anime.findUnique({

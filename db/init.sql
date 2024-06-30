@@ -312,3 +312,16 @@ insert into animeTag (tagId, animeId) values
 -- Blue Lock
 (1, 15), (13, 15);
 
+
+
+INSERT INTO episode (title, description, animeId, videoPath, rating, number)
+VALUES
+('To You, in 2000 Years: The Fall of Shiganshina, Part 1', 'The First Attack', 6, 'uploads/episodes/aot_s1_e1.mp4', 9, 1),
+('That Day: The Fall of Shiganshina, Part 2', 'The Attack Continues', 6, 'uploads/episodes/aot_s1_e2.mp4', 9, 2),
+('A Dim Light Amid Despair: Humanity’s Comeback, Part 1', 'Hope Arises', 6, 'uploads/episodes/aot_s1_e3.mp4', 9, 3),
+('The Night of the Closing Ceremony: Humanity’s Comeback, Part 2', 'The Ceremony', 6, 'uploads/episodes/aot_s1_e4.mp4', 9, 4),
+('First Battle: The Struggle for Trost, Part 1', 'The First Battle', 6, 'uploads/episodes/aot_s1_e5.mp4', 9, 5),
+('The World the Girl Saw: The Struggle for Trost, Part 2', 'The Girl’s View', 6, 'uploads/episodes/aot_s1_e6.mp4', 9, 6),
+('Small Blade: The Struggle for Trost, Part 3', 'The Struggle Continues', 6, 'uploads/episodes/aot_s1_e7.mp4', 9, 7),
+('I Can Hear His Heartbeat: The Struggle for Trost, Part 4', 'Hearing His Heartbeat', 6, 'uploads/episodes/aot_s1_e8.mp4', 9, 8),
+('Whereabouts of His Left Arm: The Struggle for Trost, Part 5', 'Left Arm Whereabouts', 6, 'uploads/episodes/aot_s1_e9.mp4', 9, 9);

@@ -32,15 +32,16 @@ export class EpisodesController {
   }
 
   //TODO
-  @Get('/episode/stream/:episodeId')
+  @Get('/episode/stream/:animeId/:episodeId')
   @Header('Accept-Ranges', 'bytes')
   @Header('Content-Type', 'video/mp4')
   async streamEpisode(
     @Res() res: Response,
     @Headers() headers,
+    @Param('animeId', ParseIntPipe) animeId: number,
     @Param('episodeId', ParseIntPipe) episodeId: number,
   ) {
-    const videoPath = await this.episodesService.getEpisodePath(episodeId);
+    const videoPath = await this.episodesService.getEpisodePath(animeId,episodeId);
     // const videoPath = `assets/${id}.mp4`;
     const { size } = statSync(videoPath);
     const videoRange = headers.range;

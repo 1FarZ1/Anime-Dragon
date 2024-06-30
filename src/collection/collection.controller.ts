@@ -14,13 +14,13 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.gaurd';
 export class CollectionController {
   constructor(private readonly collectionService: CollectionService) {}
 
-  // get my collection
-  @Get('/me')
-  @UseGuards(JwtAuthGuard)
-  async getMyCollection(@Req() req) {
-    const userId = req.user.id;
-    return this.collectionService.getCollection(userId);
-  }
+  // // get my collection
+  // @Get('/me')
+  // @UseGuards(JwtAuthGuard)
+  // async getMyCollection(@Req() req) {
+  //   const userId = req.user.id;
+  //   return this.collectionService.getCollection(userId);
+  // }
   // add to my collection
   @Post(':animeId')
   @UseGuards(JwtAuthGuard)
