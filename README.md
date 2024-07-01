@@ -17,9 +17,15 @@
 - Get A Detailld Description Of An Anime
 - Sign in and Sign up
 - Add Reviews To Animes and see them
-- Custom Filtering 
-- Get User Profile 
-- Settings 
+- Custom Filtering
+- Get User Profile
+- Settings
+
+## Future Features
+
+- Add Admin Side that can add animes and episodes and manage All the database
+- Add a feature to download episodes
+- add comments on anime
 
 ##### Other Features  are still in study
 

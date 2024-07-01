@@ -24,10 +24,7 @@ export class EpisodesController {
   }
 
   @Get('/episode/:episodeId')
-  getEpisode(
-    // @Param('animeId', ParseIntPipe) animeId: number,
-    @Param('episodeId', ParseIntPipe) episodeId: number,
-  ) {
+  getEpisode(@Param('episodeId', ParseIntPipe) episodeId: number) {
     return this.episodesService.getEpisode(episodeId);
   }
 

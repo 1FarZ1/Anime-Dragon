@@ -18,7 +18,6 @@ export class AnimeController {
 
   @Get('/')
   @UseGuards(OptionalAuthGuard)
-  // @UseGuards(JwtAuthGuard)
   getAnimes(@Req() req) {
     return this.animeService.getAnimes(req.user);
   }
@@ -38,9 +37,4 @@ export class AnimeController {
   getAnime(@Param('animeId', ParseIntPipe) animeId: number) {
     return this.animeService.getAnime(animeId);
   }
-
-  //   @Post('/add')
-  //   addAnime(): string {
-  //     return 'Anime added successfully';
-  //   }
 }

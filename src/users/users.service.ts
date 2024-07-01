@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
-// import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/db/prisma.service';
 import { CreateUserDto } from 'src/auth/dto/create-user.dto';
 
-type User = {
+export type User = {
   id: number;
   email: string;
   password: string;
@@ -54,13 +52,5 @@ export class UsersService {
     } catch (error) {
       console.log(error);
     }
-  }
-
-  // update(id: number, updateUserDto: UpdateUserDto) {
-  //   return `This action updates a #${id} user`;
-  // }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
   }
 }

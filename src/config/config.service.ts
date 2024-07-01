@@ -8,5 +8,4 @@ export class CustomConfigService {
   getDbUrl(): string {
     return this.configService.get<string>('DATABASE_URL');
   }
-
 }

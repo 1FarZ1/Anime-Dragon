@@ -17,7 +17,6 @@ export class ReviewsService {
     return reviews;
   }
 
-  // get anime number of reviews , and average rating
   async getAnimeRating(animeId: number) {
     const reviews = await this.prismaService.review.findMany({
       where: { animeId },
