@@ -17,9 +17,9 @@
 - Get A Detailld Description Of An Anime
 - Sign in and Sign up
 - Add Reviews To Animes and see them
-- Custom Filtering [Pending]
-- Get User Profile [Pending]
-- Settings [Pending]
+- Custom Filtering 
+- Get User Profile 
+- Settings 
 
 ##### Other Features  are still in study
 
