@@ -9,5 +9,4 @@ export class CustomConfigService {
     return this.configService.get<string>('DATABASE_URL');
   }
 
-  // can add more if needed :)
 }

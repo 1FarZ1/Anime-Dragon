@@ -3,11 +3,6 @@ import { Type } from 'class-transformer';
 import { IsInt, IsOptional, Max, Min } from 'class-validator';
 
 export class PageOptionsDto {
-  // @ApiPropertyOptional({ enum: Order, default: Order.ASC })
-  // @IsEnum(Order)
-  // @IsOptional()
-  // readonly order?: Order = Order.ASC;
-
   @ApiPropertyOptional({
     minimum: 1,
     default: 1,

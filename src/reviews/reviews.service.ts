@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/db/prisma.service';
 import { AddReviewDto } from './dto/add_rating.dto';
 
-interface Vote {
+export interface Vote {
   rating: number;
   votes: number;
 }
@@ -29,6 +29,13 @@ export class ReviewsService {
       numberOfReviews: reviews.length,
       averageRating,
     };
+  }
+
+  async isReviewed(userId: number, animeId: number) {
+    const review = await this.prismaService.review.findFirst({
+      where: { userId, animeId },
+    });
+    return review ? true : false;
   }
 
   async getVotes(animeId: number) {
@@ -59,16 +66,16 @@ export class ReviewsService {
         data: { rating },
       });
       return {
-        message: 'Rating updated successfully',
-        status: 200,
+        votes: await this.getVotes(animeId),
+        rating: await this.getAnimeRating(animeId),
       };
     }
     await this.prismaService.review.create({
       data: { userId, animeId, rating },
     });
     return {
-      message: 'Rating added successfully',
-      status: 200,
+      votes: await this.getVotes(animeId),
+      rating: await this.getAnimeRating(animeId),
     };
   }
 }

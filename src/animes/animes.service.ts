@@ -150,6 +150,21 @@ export class AnimeService {
     );
   }
 
+  private async addIsReviewed(animesId, userId) {
+    return await Promise.all(
+      animesId.map(async (anime) => {
+        const isReviewed = await this.reviewsService.isReviewed(
+          userId,
+          anime.id,
+        );
+        return {
+          ...anime,
+          isReviewed,
+        };
+      }),
+    );
+  }
+
   async getAnimes(user) {
     const animes = await this.fetchAnimes();
     const animeIds = animes.map((anime) => anime.id);
@@ -158,7 +173,11 @@ export class AnimeService {
     const finalAnimes = await this.addStats(combinedanimes);
 
     if (user) {
-      return this.addUserData(finalAnimes, user.id);
+      const updatedAnimesWithisReviewed = await this.addIsReviewed(
+        finalAnimes,
+        user.id,
+      );
+      return this.addUserData(updatedAnimesWithisReviewed, user.id);
     }
     return finalAnimes;
   }
@@ -168,11 +187,16 @@ export class AnimeService {
     const animeIds = animes.map((anime) => anime.id);
     const reviewMap = await this.fetchReviewData(animeIds);
     const combinedanimes = this.combineAnimeWithReviewData(animes, reviewMap);
+    const finalAnimes = await this.addStats(combinedanimes);
     if (user) {
-      return this.addUserData(combinedanimes, user.id);
+      const updatedAnimesWithisReviewed = await this.addIsReviewed(
+        finalAnimes,
+        user.id,
+      );
+      return this.addUserData(updatedAnimesWithisReviewed, user.id);
     }
 
-    return combinedanimes;
+    return finalAnimes;
   }
 
   async getPopularAnimes() {
