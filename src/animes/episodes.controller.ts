@@ -41,8 +41,10 @@ export class EpisodesController {
     @Param('animeId', ParseIntPipe) animeId: number,
     @Param('episodeId', ParseIntPipe) episodeId: number,
   ) {
-    const videoPath = await this.episodesService.getEpisodePath(animeId,episodeId);
-    // const videoPath = `assets/${id}.mp4`;
+    const videoPath = await this.episodesService.getEpisodePath(
+      animeId,
+      episodeId,
+    );
     const { size } = statSync(videoPath);
     const videoRange = headers.range;
     if (videoRange) {
