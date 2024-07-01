@@ -137,15 +137,30 @@ export class AnimeService {
       }),
     );
   }
+
+  private async addStats(animesId) {
+    return await Promise.all(
+      animesId.map(async (anime) => {
+        const votes = await this.reviewsService.getVotes(anime.id);
+        return {
+          ...anime,
+          votes,
+        };
+      }),
+    );
+  }
+
   async getAnimes(user) {
     const animes = await this.fetchAnimes();
     const animeIds = animes.map((anime) => anime.id);
     const reviewMap = await this.fetchReviewData(animeIds);
     const combinedanimes = this.combineAnimeWithReviewData(animes, reviewMap);
+    const finalAnimes = await this.addStats(combinedanimes);
+
     if (user) {
-      return this.addUserData(combinedanimes, user.id);
+      return this.addUserData(finalAnimes, user.id);
     }
-    return combinedanimes;
+    return finalAnimes;
   }
 
   async searchAnimes(user, animeFilterDto: AnimeFilterDto) {

@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/db/prisma.service';
 import { AddReviewDto } from './dto/add_rating.dto';
 
+interface Vote {
+  rating: number;
+  votes: number;
+}
 @Injectable()
 export class ReviewsService {
   constructor(private readonly prismaService: PrismaService) {}
@@ -25,6 +29,23 @@ export class ReviewsService {
       numberOfReviews: reviews.length,
       averageRating,
     };
+  }
+
+  async getVotes(animeId: number) {
+    const votes: Vote[] = Array.from({ length: 10 }, (_, index) => ({
+      rating: index + 1,
+      votes: 0,
+    }));
+
+    const reviews = await this.prismaService.review.findMany({
+      where: { animeId },
+    });
+
+    reviews.forEach((review) => {
+      votes[review.rating - 1].votes += 1;
+    });
+
+    return votes;
   }
 
   async addRating(userId: number, addRatingDto: AddReviewDto) {
