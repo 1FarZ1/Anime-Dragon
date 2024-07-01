@@ -3,6 +3,8 @@ import { PrismaService } from '../db/prisma.service';
 import { AnimeFilterDto, Order, OrderBy } from 'src/common/dto/filter.dto';
 // import { Anime } from '@prisma/client';
 import { ReviewsService } from 'src/reviews/reviews.service';
+import { FavoriteService } from 'src/favorites/favorite.service';
+import { CollectionService } from 'src/collection/collection.service';
 // import { Prisma } from '@prisma/client';
 
 // export interface Anime {
@@ -24,6 +26,8 @@ export class AnimeService {
   constructor(
     private prisma: PrismaService,
     private readonly reviewsService: ReviewsService,
+    private readonly favoriteService: FavoriteService,
+    private readonly collectionService: CollectionService,
   ) {}
   private async fetchAnimes(
     animeFilterDto: AnimeFilterDto = {
@@ -49,9 +53,6 @@ export class AnimeService {
             ],
           }
         : {};
-    console.log('whereCondition', whereCondition);
-    console.log('orderBy', orderBy);
-    console.log('order', order);
 
     return this.prisma.anime.findMany({
       where: whereCondition,
@@ -117,18 +118,46 @@ export class AnimeService {
     }));
   }
 
-  async getAnimes() {
+  // private add user specific data to anime like isfavorite and isInMyLsit
+  private async addUserData(animesId, useriD) {
+    return await Promise.all(
+      animesId.map(async (anime) => {
+        const isFavorite: boolean = await this.favoriteService.isAnimeFavorite(
+          useriD,
+          anime.id,
+        );
+        const isInMyList: boolean =
+          await this.collectionService.isAnimeInCollection(useriD, anime.id);
+
+        return {
+          ...anime,
+          isFavorite,
+          isInMyList,
+        };
+      }),
+    );
+  }
+  async getAnimes(user) {
     const animes = await this.fetchAnimes();
     const animeIds = animes.map((anime) => anime.id);
     const reviewMap = await this.fetchReviewData(animeIds);
-    return this.combineAnimeWithReviewData(animes, reviewMap);
+    const combinedanimes = this.combineAnimeWithReviewData(animes, reviewMap);
+    if (user) {
+      return this.addUserData(combinedanimes, user.id);
+    }
+    return combinedanimes;
   }
 
-  async searchAnimes(animeFilterDto: AnimeFilterDto) {
+  async searchAnimes(user, animeFilterDto: AnimeFilterDto) {
     const animes = await this.fetchAnimes(animeFilterDto);
     const animeIds = animes.map((anime) => anime.id);
     const reviewMap = await this.fetchReviewData(animeIds);
-    return this.combineAnimeWithReviewData(animes, reviewMap);
+    const combinedanimes = this.combineAnimeWithReviewData(animes, reviewMap);
+    if (user) {
+      return this.addUserData(combinedanimes, user.id);
+    }
+
+    return combinedanimes;
   }
 
   async getPopularAnimes() {

@@ -1,13 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AnimeService } from 'src/animes/animes.service';
 import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
 export class CollectionService {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly animeService: AnimeService,
-  ) {}
+  constructor(private readonly prismaService: PrismaService) {}
 
   // async getCollection(userId: number) {
   //   const result = await this.prismaService.userAnimeList.findMany({
@@ -74,7 +70,7 @@ export class CollectionService {
     }
   }
 
-  async isAnimeInCollection(userId: number, animeId: number) {
+  async isAnimeInCollection(userId: number, animeId: number): Promise<boolean> {
     const collection = await this.prismaService.userAnimeList.findFirst({
       where: { userId, animeId },
     });

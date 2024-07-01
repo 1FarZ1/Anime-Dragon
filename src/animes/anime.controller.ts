@@ -10,6 +10,7 @@ import {
 import { AnimeService } from './animes.service';
 import { AnimeFilterDto } from 'src/common/dto/filter.dto';
 import { OptionalAuthGuard } from 'src/auth/guards/optiona-auth.gaurd';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.gaurd';
 
 @Controller('/animes')
 export class AnimeController {
@@ -17,10 +18,9 @@ export class AnimeController {
 
   @Get('/')
   @UseGuards(OptionalAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   getAnimes(@Req() req) {
-    return req.user
-      ? this.animeService.getAnimes()
-      : this.animeService.getAnimes();
+    return this.animeService.getAnimes(req.user);
   }
 
   @Get('/popular')
@@ -29,8 +29,9 @@ export class AnimeController {
   }
 
   @Get('/search')
-  searchAnimes(@Query() filterDto: AnimeFilterDto) {
-    return this.animeService.searchAnimes(filterDto);
+  @UseGuards(OptionalAuthGuard)
+  searchAnimes(@Req() req, @Query() filterDto: AnimeFilterDto) {
+    return this.animeService.searchAnimes(req.user, filterDto);
   }
 
   @Get('/anime/:animeId')

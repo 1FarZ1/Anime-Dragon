@@ -1,47 +1,41 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { AnimeService } from 'src/animes/animes.service';
 import { PrismaService } from 'src/db/prisma.service';
 
 @Injectable()
 export class FavoriteService {
-  constructor(
-    private readonly prismaService: PrismaService,
-    private readonly animeService: AnimeService,
-  ) {}
-  // async addToFavorites(userId: number, animeId: number) {
-  //   const anime = await this.prismaService.anime.findUnique({
-  //     where: { id: animeId },
-  //   });
-  //   if (!anime) {
-  //     throw new NotFoundException('Anime not found');
-  //   }
-  //   const favorite = await this.prismaService.favorite.findFirst({
-  //     where: { userId, animeId },
-  //   });
-  //   if (favorite) {
-  //     throw new NotFoundException('Favorite already exists');
-  //   }
-  //   const res = await this.prismaService.favorite.create({
-  //     data: { userId, animeId },
-  //     include: {
-  //       anime: {
-  //         include: {
-  //           studio: true,
-  //           characters: true,
-  //         },
-  //       },
-  //     },
-  //   });
-  //   const completeAnime = await this.animeService.fillAnime(res.anime);
+  constructor(private readonly prismaService: PrismaService) {}
+  async addToFavorites(userId: number, animeId: number) {
+    const anime = await this.prismaService.anime.findUnique({
+      where: { id: animeId },
+    });
+    if (!anime) {
+      throw new NotFoundException('Anime not found');
+    }
+    const favorite = await this.prismaService.favorite.findFirst({
+      where: { userId, animeId },
+    });
+    if (favorite) {
+      throw new NotFoundException('Favorite already exists');
+    }
+    const res = await this.prismaService.favorite.create({
+      data: { userId, animeId },
+      include: {
+        anime: {
+          include: {
+            studio: true,
+            characters: true,
+          },
+        },
+      },
+    });
 
-  //   if (completeAnime) {
-  //     return {
-  //       message: 'Favorite added successfully',
-  //       status: 200,
-  //       anime: completeAnime[0],
-  //     };
-  //   }
-  // }
+    if (res) {
+      return {
+        message: 'Favorite added successfully',
+        status: 200,
+      };
+    }
+  }
 
   async removeFromFavorites(userId: number, animeId: number) {
     const favorite = await this.prismaService.favorite.findFirst({
@@ -85,7 +79,7 @@ export class FavoriteService {
   //   );
   // }
 
-  async isAnimeFavorite(userId: number, animeId: number) {
+  async isAnimeFavorite(userId: number, animeId: number): Promise<boolean> {
     const favorite = await this.prismaService.favorite.findFirst({
       where: { userId, animeId },
     });
